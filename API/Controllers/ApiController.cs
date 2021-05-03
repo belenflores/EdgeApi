@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using EdgeApi.DataAccess;
 using EdgeApi.POCO;
 using System;
+using EdgeApi.Data;
 
 namespace EdgeApi_API.Controllers
 {
@@ -56,6 +57,70 @@ namespace EdgeApi_API.Controllers
             try
             {
                 response = PostsAccess.GetPostById(postId);
+
+                if (response.ErrorCode == EdgeApi.ErrorCode.NoError)
+                    return Ok(response);
+                if (response.ErrorCode == EdgeApi.ErrorCode.Validation)
+                    return BadRequest(response);
+                else
+                    throw new Exception(response.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = EdgeApi.ErrorCode.Other;
+                response.ErrorMessage = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        /// <summary>
+        /// Crea un nuevo post.
+        /// </summary>
+        /// <param name="post">Objeto post que se quiere crear.</param>
+        [HttpPost]
+        [Route("api/CreatePost")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
+        public IActionResult CreatePost(Post post)
+        {
+            Response response = new Response();
+
+            try
+            {
+                response = PostsAccess.CreatePost(post);
+
+                if (response.ErrorCode == EdgeApi.ErrorCode.NoError)
+                    return Ok(response);
+                if (response.ErrorCode == EdgeApi.ErrorCode.Validation)
+                    return BadRequest(response);
+                else
+                    throw new Exception(response.ErrorMessage);
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = EdgeApi.ErrorCode.Other;
+                response.ErrorMessage = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
+        /// <summary>
+        /// Actualizar un post.
+        /// </summary>
+        /// <param name="post">Objeto post que se quiere crear.</param>
+        [HttpPut]
+        [Route("api/UpdatePost")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(Response))]
+        public IActionResult UpdatePost(Post post)
+        {
+            Response response = new Response();
+
+            try
+            {
+                response = PostsAccess.UpdatePost(post);
 
                 if (response.ErrorCode == EdgeApi.ErrorCode.NoError)
                     return Ok(response);

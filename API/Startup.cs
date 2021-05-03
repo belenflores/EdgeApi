@@ -59,7 +59,6 @@ namespace EdgeApi_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EdgeApi", Version = "v1" });
-                c.IncludeXmlComments(@"C:\Users\bflores\Documents\EdgeApi\API\API.xml");
             });
         }
 

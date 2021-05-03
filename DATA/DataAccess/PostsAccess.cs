@@ -6,6 +6,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.Json;
 
 namespace EdgeApi.DataAccess
@@ -76,6 +77,90 @@ namespace EdgeApi.DataAccess
             catch (Exception ex)
             {
                 if(ex is ApiValException)
+                    apiResponse.ErrorCode = ErrorCode.Validation;
+                else
+                    apiResponse.ErrorCode = ErrorCode.Other;
+
+                apiResponse.ErrorMessage = ex.Message;
+            }
+
+            return apiResponse;
+        }
+
+        public static Response CreatePost(Post post)
+        {
+            Response apiResponse = new Response();
+            apiResponse.IdReference = Guid.NewGuid(); //devolver un valor de referencia, asumimos que se guarda
+            apiResponse.Method = "CreatePost";
+
+            try
+            {
+                #region Validacion
+                if (post == null)
+                    throw new ApiValException("El objeto post a crear no puede ser nulo");
+
+                #endregion Validacion
+                
+                HttpContent content = new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, "application/json");
+                var response = client.PostAsync(baseUrl + "/posts",content).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = response.Content;
+                    string responseString = responseContent.ReadAsStringAsync().Result;
+                    apiResponse.Posts = new List<Post>();
+                    apiResponse.Posts.Add(JsonSerializer.Deserialize<Post>(responseString));
+                }
+                else
+                {
+                    throw new Exception("Error al consultar a API fuente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is ApiValException)
+                    apiResponse.ErrorCode = ErrorCode.Validation;
+                else
+                    apiResponse.ErrorCode = ErrorCode.Other;
+
+                apiResponse.ErrorMessage = ex.Message;
+            }
+
+            return apiResponse;
+        }
+
+        public static Response UpdatePost(Post post)
+        {
+            Response apiResponse = new Response();
+            apiResponse.IdReference = Guid.NewGuid(); //devolver un valor de referencia, asumimos que se guarda
+            apiResponse.Method = "UpdatePost";
+
+            try
+            {
+                #region Validacion
+                if (post == null)
+                    throw new ApiValException("El objeto post a actualizar no puede ser nulo");
+
+                #endregion Validacion
+
+                HttpContent content = new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, "application/json");
+                var response = client.PutAsync(baseUrl + "/posts/" + post.id.ToString(), content).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = response.Content;
+                    string responseString = responseContent.ReadAsStringAsync().Result;
+                    apiResponse.Posts = new List<Post>();
+                    apiResponse.Posts.Add(JsonSerializer.Deserialize<Post>(responseString));
+                }
+                else
+                {
+                    throw new Exception("Error al consultar a API fuente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is ApiValException)
                     apiResponse.ErrorCode = ErrorCode.Validation;
                 else
                     apiResponse.ErrorCode = ErrorCode.Other;

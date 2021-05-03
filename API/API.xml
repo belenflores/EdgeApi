@@ -15,6 +15,18 @@
             </summary>
             <param name="postId">Número de id del post (0,100)</param>
         </member>
+        <member name="M:EdgeApi_API.Controllers.ApiController.CreatePost(EdgeApi.Data.Post)">
+            <summary>
+            Crea un nuevo post.
+            </summary>
+            <param name="post">Objeto post que se quiere crear.</param>
+        </member>
+        <member name="M:EdgeApi_API.Controllers.ApiController.UpdatePost(EdgeApi.Data.Post)">
+            <summary>
+            Actualizar un post.
+            </summary>
+            <param name="post">Objeto post que se quiere crear.</param>
+        </member>
         <member name="M:EdgeApi_API.Controllers.AuthenticationController.Authenticate(EdgeApi.POCO.Credentials)">
             <summary>
             Devuelve el token de autenticación.
