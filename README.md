@@ -1,13 +1,13 @@
 # EdgeApi
-Api desarrolla con .NET CORE para Edge.
-Consume Api de https://jsonplaceholder.typicode.com/
+La API聽fue desarrollada con .NET CORE. para consumir datos de https://jsonplaceholder.typicode.com/
+Se utiliz贸 una librer铆a externa para ayudar con la implementaci贸n de la autenticaci贸n por el m茅todo JWT, las dem谩s son standard.
 
-Link del collection: https://www.getpostman.com/collections/043fbc1395d9637743c3
+Link del collection de Postman para las pruebas es: https://www.getpostman.com/collections/043fbc1395d9637743c3
 
 Indicaciones:
 1- Correr el proyecto localmente.
-2- En los requests del postman, editar el puerto de la aplicaci髇 se var韆.
-3- Ejecutar el request "Authentication" y copiar el token devuelto. Para los fines de este proyecto demo, se utilizan las crendenciales:
+2- En los requests del Postman, editar el puerto de la aplicaci贸n si este var铆a.
+3- Ejecutar el request "Authentication" y copiar el token devuelto. Para los fines de este proyecto demo, se utilizan las credenciales:
 Usuario: "edge".
 Password: "Pa$$w0rd".
-4- Copiar el token en la secci髇 de autenticaci髇 de los dem醩 requests. 
+4- Copiar el token en la secci贸n de autenticaci贸n de los dem谩s requests.聽
