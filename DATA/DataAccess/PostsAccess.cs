@@ -13,7 +13,7 @@ namespace EdgeApi.DataAccess
     public static class PostsAccess
     {
         private static HttpClient client = new HttpClient();                                                   
-        private static string baseUrl = @"https://jsonplaceholder.typicode.com";
+        private static string baseUrl = @"https://jsonplaceholder.typicode.com"; //poner en archivo conf
 
        
         public static Response GetAllPosts()
@@ -45,10 +45,50 @@ namespace EdgeApi.DataAccess
 
             return apiResponse;
         }
+
+        public static Response GetPostById(int postId)
+        {
+            Response apiResponse = new Response();
+            apiResponse.IdReference = Guid.NewGuid(); //devolver un valor de referencia, asumimos que se guarda
+            apiResponse.Method = "GetPostById";
+
+            try
+            {
+                #region Validacion
+                if (postId < 1 || postId > 100)
+                    throw new ApiValException("Id de Post no válido");
+
+                #endregion Validacion
+                var response = client.GetAsync(baseUrl + "/posts/" + postId.ToString()).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = response.Content;
+                    string responseString = responseContent.ReadAsStringAsync().Result;
+                    apiResponse.Posts = new List<Post>();
+                    apiResponse.Posts.Add(JsonSerializer.Deserialize<Post>(responseString));
+                }
+                else
+                {
+                    throw new Exception("Error al consultar a API fuente.");
+                }
+            }
+            catch (Exception ex)
+            {
+                if(ex is ApiValException)
+                    apiResponse.ErrorCode = ErrorCode.Validation;
+                else
+                    apiResponse.ErrorCode = ErrorCode.Other;
+
+                apiResponse.ErrorMessage = ex.Message;
+            }
+
+            return apiResponse;
+        }
     }
 
     [Serializable]
-    internal class ApiValException : Exception
+    internal class ApiValException : Exception //Excepcion para manejar errores de validacion
     {
         public ApiValException()
         {

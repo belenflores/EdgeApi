@@ -20,11 +20,8 @@ namespace EdgeApi_API.JWT
 
         public string Authenticate(Credentials credentials)
         {
- 
 
-            //I know we should not save pass in db, i need a little more time to implement something better :)
-            //if (!db.Users.Where(x => x.UserName == credentials.UserName && x.Password == credentials.Password).Any())
-            if (credentials.UserName != "edge" || credentials.Password != "Pa$$w0rd")
+            if (credentials.UserName != "edge" || credentials.Password != "Pa$$w0rd") //para propositos de demo implementamos asi :)
                 return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();

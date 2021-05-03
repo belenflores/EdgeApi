@@ -31,10 +31,10 @@ namespace EdgeApi_API
         {
 
             services.AddControllers();
-            services.AddSwaggerGen();
 
-            #region JwtAuth
-            string myKey = "MyJijo Key for challenge project";
+            //codigo para configurar servicio de autenticacion JWT
+            #region JwtAuth 
+            string myKey = "edge Key para demo"; //solo para la demo :)
 
             services.AddAuthentication(x =>
             {
@@ -59,6 +59,7 @@ namespace EdgeApi_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EdgeApi", Version = "v1" });
+                c.IncludeXmlComments(@"C:\Users\bflores\Documents\EdgeApi\API\API.xml");
             });
         }
 
@@ -69,7 +70,7 @@ namespace EdgeApi_API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyJijoWalletAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EdgeApi v1"));
             }
 
             app.UseHttpsRedirection();

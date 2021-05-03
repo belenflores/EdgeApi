@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EdgeApi.POCO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace EdgeApi_API.Controllers
 {
     [Authorize]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ControllerBase //api para devolver el token de autenticacion
     {
         private readonly IJWTAuthenticationManager AuthenticationManager;
 
@@ -19,6 +15,10 @@ namespace EdgeApi_API.Controllers
             this.AuthenticationManager = authenticationManager;
         }
 
+        /// <summary>
+        /// Devuelve el token de autenticación.
+        /// </summary>
+        /// <param name="credentials">Objeto con definición de usuario y contraseña.</param>
         [AllowAnonymous]
         [HttpPost]
         [Route("api/authenticate/")]
@@ -30,7 +30,6 @@ namespace EdgeApi_API.Controllers
                 return Ok(token);
             else
                 return Unauthorized();
-            //return Ok("Funciono");
         }
 
      

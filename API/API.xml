@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="M:EdgeApi_API.Controllers.ApiController.GetAllPosts">
+            <summary>
+            Obtiene todos los posts.
+            </summary>
+        </member>
+        <member name="M:EdgeApi_API.Controllers.ApiController.GetAllPosts(System.Int32)">
+            <summary>
+            Obtiene un post por ID.
+            </summary>
+            <param name="postId">Número de id del post (0,100)</param>
+        </member>
+        <member name="M:EdgeApi_API.Controllers.AuthenticationController.Authenticate(EdgeApi.POCO.Credentials)">
+            <summary>
+            Devuelve el token de autenticación.
+            </summary>
+            <param name="credentials">Objeto con definición de usuario y contraseña.</param>
+        </member>
+    </members>
+</doc>
